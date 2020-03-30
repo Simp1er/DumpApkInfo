@@ -16,6 +16,6 @@ APK基本信息查看工具、可查看基本信息包括包名，入口类，�
 
 ```
 最终使用效果如下
-![](imgs/show.jpg)
+![](imgs/show.png)
 # 写在最后
 本项目基于@MagiCiAn表哥的[项目](https://github.com/MagiCiAn1/APKProtectionSearch)的基础上改写，修复了一些bug，并基于自己的工作需要，增加了自己的一些功能，大佬们觉得写的还可以的话，给个star?如果使用过程中有任何问题，欢迎提issue
