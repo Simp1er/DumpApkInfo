@@ -239,6 +239,8 @@ class DumpApkInfo:
         for name in self.zipnamelist:
             if name.startswith('META-INF') and name.endswith('.RSA'):
                 z = zipfile.ZipFile(self.apk_path, 'r')
+                if not os.path.exists('./tmp'):
+                    os.mkdir('tmp', 0o777)
                 fd = open('tmp/' + name.split('/')[-1],  'wb')
                 fd.write(z.read(name))
                 fd.close()
