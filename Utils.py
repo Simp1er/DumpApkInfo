@@ -10,7 +10,7 @@ def calc_blank(line_data):
     i = 0
     for bit in line_data:
         if bit == ' ':
-            i+=1
+            i += 1
             continue
         else:
             break
@@ -44,7 +44,7 @@ def parse_to_dict(data):
             for j in range(i+1, list_length):
                 if data_list[j].startswith('A:'):
                     key_value = data_list[j][3:].split('=')
-                    dic[data_list[i][3:]][key_value[0]] = key_value[1].replace('\"',"")
+                    dic[data_list[i][3:]][key_value[0]] = key_value[1].replace('\"', "")
                     # tmp = j
                     continue
                 else:
@@ -59,7 +59,7 @@ def parse_to_dict(data):
 def parse_xml(data):
     #print(data)
     result = parse_to_dict(data)
-    #print(result)
+    # print(result)
     parse_data = {'package-name': [],
                   'version-name': [],
                   'minSDK': [],
@@ -72,31 +72,63 @@ def parse_xml(data):
         #print(type(item))
         if list(item.keys())[0] == 'manifest':
             parse_data['package-name'].append(item['manifest']['package'])
+            #print(parse_data)
             parse_data['version-name'].append(item['manifest']['android:versionName'])
-        if list(item.keys())[0] == 'uses-sdk':
-            parse_data['minSDK'].append(int(item['uses-sdk']['android:minSdkVersion'], 16))
-            parse_data['maxSDK'].append(int(item['uses-sdk']['android:targetSdkVersion'], 16))
+            # print(parse_data)
         if list(item.keys())[0] == 'uses-permission':
             parse_data['permissions'].append(item['uses-permission']['android:name'])
         if list(item.keys())[0] == 'application':
-            parse_data['application-name'].append(item['application']['android:name'])
+            try:
+                parse_data['application-name'].append(item['application']['android:name'])
+            except Exception as f:
+                continue
         if list(item.keys())[0] == 'category' and 'LAUNCHER' in item['category']['android:name'] \
                 and result[i - 3] is not None and list(result[i - 3].keys())[0] == 'activity':
             parse_data['launcher-activity'].append(result[i-3]['activity']['android:name'])
-    #print(parse_data)
+        if list(item.keys())[0] == 'uses-sdk':
+            parse_data['minSDK'].append(int(item['uses-sdk']['android:minSdkVersion'], 16))
+            parse_data['maxSDK'].append(int(item['uses-sdk']['android:targetSdkVersion'], 16))
+    # print(parse_data)
     return parse_data
 
 
 def parse_label(data):
-    for aaptline in data:
+    for line in data:
         #print(aaptline)
         # application-label: '222'
         label_name = ''
-        if aaptline.find('application-label:') > -1:
+        if line.find('application-label:') > -1:
             pattern = r'label:\'(\S*)\''
-            m = re.search(pattern, aaptline)
+            m = re.search(pattern, line)
             if m:
                 label_name = m.group(1)
                 return label_name
                 # break
     return
+
+def parse_sign(data):
+    sign_info = ''
+    for line in data:
+        #print(line)
+        # application-label: '222'
+
+        if line.find('所有者:') > -1 or line.find('Owner:') > -1:
+            pattern = re.compile('^(所有者|Owner):.*$')
+            m = re.search(pattern, line)
+            if m:
+                sign_info = m[0]
+                # print(sign_info)
+                #return sign_info
+                # break
+        if line.find('发布者:') > -1 or line.find('Issuer:') > -1:
+            pattern = re.compile('^(发布者|Issuer):.*$')
+            m = re.search(pattern, line)
+            if m:
+                sign_info += '\n%51s' % ' ' + m[0]
+                # print(sign_info)
+                # return sign_info
+                # break
+    if sign_info != '':
+        return sign_info
+    else:
+        return data

@@ -1,3 +1,4 @@
+# coding:utf-8
 SO_FEATURE = {'梆梆企业版': r'libDexHelper\S*.so',
               '梆梆': r'libsecexe\S*.so|libSecShell\S*.so|libsecmain\S*.so',
               '360加固': r'libjiagu\S*.so|libprotectClass\S*.so',
@@ -76,3 +77,7 @@ SDK = {
     28: 'Android 9',
     29: 'Android 10'
 }
+
+KEYTOOL_PATH = './tools/sign/keytool-mac'
+
+CheckAndroidV2SignatureByAPKSig = './tools/sign/CheckAndroidV2SignatureByAPKSig.jar'
