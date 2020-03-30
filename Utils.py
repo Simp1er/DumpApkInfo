@@ -87,5 +87,16 @@ def parse_xml(data):
     return parse_data
 
 
-
-
+def parse_label(data):
+    for aaptline in data:
+        #print(aaptline)
+        # application-label: '222'
+        label_name = ''
+        if aaptline.find('application-label:') > -1:
+            pattern = r'label:\'(\S*)\''
+            m = re.search(pattern, aaptline)
+            if m:
+                label_name = m.group(1)
+                return label_name
+                # break
+    return

@@ -52,3 +52,27 @@ SENSTIVE_PERMISSIONS = {
     'CAMERA': '使用相机拍照',
     'WRITE_EXTERNAL_STORAGE': '截图与录屏'
 }
+UNKNOWN = 'UNKNOWN'
+SDK = {
+    9: 'Android 2.3 ',
+    10: 'Android 2.3.3',
+    11: 'Android 3.0',
+    12: 'Android 3.1',
+    13: 'Android 3.2',
+    14: 'Android 4.0',
+    15: 'Android 4.0.3',
+    16: 'Android 4.1',
+    17: 'Android 4.2',
+    18: 'Android 4.3',
+    19: 'Android 4.4',
+    20: 'Android 4.4W',
+    21: 'Android 5.0',
+    22: 'Android 5.1',
+    23: 'Android 6.0',
+    24: 'Android 7.0',
+    25: 'Android 7.1',
+    26: 'Android 8.0',
+    27: 'Android 8.1',
+    28: 'Android 9',
+    29: 'Android 10'
+}
